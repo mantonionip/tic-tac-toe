@@ -1,10 +1,10 @@
 const boxes = Array.from(document.getElementsByClassName("box"))
 const playText = document.getElementById("playText")
-const spaces = [null, null, null, null, null, null, null, null, null]
+const restartBtn = document.getElementById("restartBtn")
+const spaces = []
 const O_TEXT = "0"
 const X_TEXT = "X"
-let currentPlayer = O_TEXT
-console.log(boxes)
+let currentPlayer
 
 const drawBoard = () => {
   boxes.forEach((box, index) => {
@@ -55,6 +55,40 @@ const playerHasWon = () => {
       return true
     }
   }
+  if (spaces[8] === currentPlayer) {
+    if (spaces[2] === currentPlayer && spaces[5] === currentPlayer) {
+      console.log(`${currentPlayer} wins on the right.`)
+      return true
+    }
+    if (spaces[6] === currentPlayer && spaces[7] === currentPlayer) {
+      console.log(`${currentPlayer} wins on the bottom.`)
+      return true
+    }
+  }
+  if (spaces[4] === currentPlayer) {
+    if (spaces[1] === currentPlayer && spaces[7] === currentPlayer) {
+      console.log(`${currentPlayer} wins vertically in the middle`)
+      return true
+    }
+    if (spaces[3] === currentPlayer && spaces[5] === currentPlayer) {
+      console.log(`${currentPlayer} wins horizontally in the middle`)
+      return true
+    }
+  }
 }
 
+const restart = () => {
+  spaces.forEach((space, index) => {
+    spaces[index] = null
+  })
+  boxes.forEach((box) => {
+    box.innerText = ""
+  })
+  playText.innerText = `Let's Play`
+  currentPlayer = O_TEXT
+}
+
+restartBtn.addEventListener("click", restart)
+
+restart()
 drawBoard()
